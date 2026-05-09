@@ -1,100 +1,95 @@
-# ep365-feedback
+# ep365-roadmap
 
-> **Veřejná databáze Issues a roadmapa pro všechny EP365 aplikace.**
+> **Veřejná roadmapa všech EP365 aplikací.**
 
-Toto repo **neobsahuje žádný kód**. Slouží jako centrální místo pro:
+Tohle repo **neobsahuje žádný kód** — je to jen centrální místo pro plánované, rozpracované a hotové položky napříč produktovou rodinou EP365.
 
-- **hlášení chyb** (bug reports) z EP365 aplikací
-- **požadavky na nové funkce** (feature requests)
-- **veřejnou roadmapu** produktu (GitHub Projects)
+EP365 aplikace si z něj přímo načítají vlastní pohled na roadmapu, takže když přidáme/zavřeme issue tady, uživatelé to uvidí ve svých aplikacích.
+
+---
+
+## Aplikace v rodině EP365
+
+| Aplikace | Repo (kód) | Label v issue |
+|---|---|---|
+| **EP365 Vozový park** | `EasyPortal365/ep365-fleet` | `app: ep365-fleet` |
+| **EP365 AI Asistent** | `EasyPortal365/ep365-ai-chat` | `app: ep365-ai-chat` |
+| **EP365 Hub** | `EasyPortal365/ep365-hub` | `app: ep365-hub` |
+| **EP365 Documents** | `EasyPortal365/ep365-documents` | `app: ep365-documents` |
+
+Aplikace si filtrují issues podle `app:` štítku, takže každá zobrazuje jen svou roadmapu.
 
 ---
 
 ## Jak to funguje
 
-Uživatelé EP365 aplikací nikdy nepřicházejí na GitHub přímo. Zpětná vazba se odesílá automaticky z rozhraní aplikace:
-
 ```
-SPFx app
-  └─ @ep365/feedback (npm balíček)
-       └─ ep365-functions (Azure Function proxy)
-            └─ GitHub Issues (toto repo)
+ep365-roadmap (public)
+   └─ Issues (label-driven status + app)
+       └─ GitHub REST API (anonymous)
+            └─ EP365 SPFx aplikace (Roadmap view)
 ```
 
-1. Uživatel vyplní formulář zpětné vazby v SharePoint web partu.
-2. Balíček `@ep365/feedback` (z `ep365-shared`) odešle požadavek na Azure Function.
-3. Azure Function (`feedbackSubmit`) drží GitHub PAT jako environment proměnnou a vytvoří Issue v tomto repozitáři.
-4. Issue dostane automaticky přiřazené štítky (aplikace, typ, stav).
-
-Uživatelé **nepotřebují GitHub účet** — vše probíhá přes proxy.
+- Repo je **public**, takže aplikace volají `https://api.github.com/repos/EasyPortal365/ep365-roadmap/issues?state=all&per_page=100&labels=app:ep365-fleet` **bez autentizace**.
+- Anonymní rate limit GitHub API je 60 req/hod/IP — na čtení roadmapy víc než dost.
+- Žádný backend, žádná Azure Function, žádný PAT.
 
 ---
 
-## Štítky (Labels)
+## Hlášení chyb a návrhy funkcí — *NE tady*
+
+**Tohle repo neslouží pro user feedback.** Uživatelé EP365 aplikací nemají přístup na GitHub a o roadmapě by neměli rozhodovat přímo přes Issues.
+
+Hlášení chyb a požadavky na nové funkce se z aplikací odesílají přes **Zoho Forms** — odpovědi přijdou Accelapps emailem, manuálně se vyhodnotí a *teprve schválené položky* se sem zařadí jako issue.
+
+---
+
+## Štítky
 
 ### Typ
 | Štítek | Popis |
-|--------|-------|
-| `bug` | Nahlášená chyba v aplikaci |
-| `feature-request` | Požadavek na novou funkcionalitu |
+|---|---|
+| `feature-request` | Plánovaná nová funkcionalita |
+| `bug` | Známá chyba zařazená do roadmapy (rare — většina bugů se řeší rovnou bez issue) |
 
 ### Aplikace
 | Štítek | Popis |
-|--------|-------|
-| `app: ep365-ai-chat` | Pochází z EP365 AI Chat |
-
-*(Další aplikace budou přidány s jejich nasazením.)*
+|---|---|
+| `app: ep365-fleet` | EP365 Vozový park |
+| `app: ep365-ai-chat` | EP365 AI Asistent |
+| `app: ep365-hub` | EP365 Hub |
+| `app: ep365-documents` | EP365 Documents |
 
 ### Stav
-| Štítek | Popis |
-|--------|-------|
-| `status: new` | Nový, zatím nezpracovaný |
-| `status: under-review` | Probíhá analýza |
-| `status: planned` | Zařazeno do plánu |
-| `status: in-progress` | Aktivně se pracuje |
-| `status: done` | Dokončeno |
-| `status: wont-fix` | Nebude řešeno (s vysvětlením) |
+| Štítek | Popis | Sloupec v aplikaci |
+|---|---|---|
+| `status: under-review` | Posuzujeme · ještě nepotvrzené | **Later** |
+| `status: planned` | V plánu na nějakou další verzi | **Next** |
+| `status: in-progress` | Aktivní vývoj v aktuálním sprintu | **Now** |
+| `status: done` | Hotovo, vydané v některém release | **Co je nové** |
+
+### Milestones (release tag)
+Každá hotová položka by měla mít přiřazený milestone — tj. verzi, ve které byla vydaná (např. `v1.4.0`, `v1.3.5`). Aplikace milestone používá pro grupování v sekci „Co je nové" a v banneru aktuální verze.
 
 ---
 
-## GitHub Projects — Roadmapa
+## Pro tým: ruční vytvoření issue
 
-Issues jsou automaticky promítány do **GitHub Project boardu**, který slouží jako EP365 roadmapa:
-
-| Sloupec | Odpovídající štítek |
-|---------|---------------------|
-| New | `status: new` |
-| Under Review | `status: under-review` |
-| Planned | `status: planned` |
-| In Progress | `status: in-progress` |
-| Done | `status: done` |
-
-### Milníky
-- `H1 2026` — Leden–Červen 2026
-- `H2 2026` — Červenec–Prosinec 2026
-- `H1 2027` — Leden–Červen 2027
-
----
-
-## Veřejná roadmapa (budoucí funkce)
-
-Plánujeme vlastní stránku roadmapy, která bude číst GitHub API a zobrazovat Issues v uživatelsky přívětivém formátu — bez nutnosti přístupu na GitHub.
+1. **[New issue](../../issues/new)** v GitHub UI
+2. Title bez prefixu (např. `Sledování spotřeby paliva` — bez `[ep365-fleet]`, ten odvozuje aplikace z `app:` štítku)
+3. Body = popis, který se zobrazí v aplikaci (max 1000 znaků se zobrazí, zbytek zkrácený `…`)
+4. Štítky: **vždy** `app: <appname>` + jeden ze `status: ...` + volitelně `feature-request` / `bug`
+5. **Milestone**: u rozpracovaných (`in-progress`) plánovaná verze, u hotovových verze ve které vyšlo
 
 ---
 
 ## Propojené komponenty
 
 | Komponenta | Repo | Popis |
-|-----------|------|-------|
-| `@ep365/feedback` | `ep365-shared` | Klientský npm balíček pro odesílání zpětné vazby |
-| `feedbackSubmit` | `ep365-functions` | Azure Function proxy — vytváří Issues pomocí GitHub PAT |
-| EP365 AI Chat | `ep365-ai-chat` | První aplikace integrující feedback formulář |
+|---|---|---|
+| `RoadmapView.tsx` | `ep365-fleet`, `ep365-ai-chat`, … | View v každé aplikaci, fetchuje GitHub API |
+| Zoho Forms | externí (Accelapps tenant) | User feedback flow — jejich URL je v `FeedbackView.tsx` každé aplikace |
 
 ---
 
-## Pro vývojáře: ruční vytvoření Issue
-
-Pokud potřebuješ nahlásit chybu nebo nápad přímo (bez aplikace), použij standardní GitHub rozhraní:
-**[New Issue](../../issues/new/choose)**
-
-Přiřaď prosím správné štítky (`app:`, typ, `status: new`).
+*Předchozí název repa byl `ep365-feedback` a sloužil i pro user bug reporty přes Azure Function proxy. Po refaktoru (květen 2026) se feedback odesílá do Zoho Forms a tohle repo zůstává jen pro roadmapu.*
