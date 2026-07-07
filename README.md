@@ -14,8 +14,16 @@ EP365 aplikace si z něj přímo načítají vlastní pohled na roadmapu, takže
 |---|---|---|
 | **EP365 Vozový park** | `EasyPortal365/ep365-fleet` | `app: ep365-fleet` |
 | **EP365 AI Asistent** | `EasyPortal365/ep365-ai-chat` | `app: ep365-ai-chat` |
-| **EP365 Hub** | `EasyPortal365/ep365-hub` | `app: ep365-hub` |
 | **EP365 Documents** | `EasyPortal365/ep365-documents` | `app: ep365-documents` |
+| **EP365 Homepage** | `EasyPortal365/ep365-homepage` | `app: ep365-homepage` |
+| **EP365 LifeCenter** | `EasyPortal365/ep365-lifecenter` | `app: ep365-lifecenter` |
+| **EP365 Identity** | `EasyPortal365/ep365-identity` | `app: ep365-identity` |
+| **EP365 CRM** | `EasyPortal365/ep365-crm` | `app: ep365-crm` |
+| **EP365 Multimedia** | `EasyPortal365/ep365-multimedia` | `app: ep365-multimedia` |
+| **EP365 Site Manager** | `EasyPortal365/ep365-site-manager` | `app: ep365-site-manager` |
+| **EP365 Worklog** | `EasyPortal365/ep365-worklog` | `app: ep365-worklog` |
+| **EP365 Marketing** | `EasyPortal365/ep365-marketing` | `app: ep365-marketing` |
+| **EP365 Hub** *(zakonzervováno)* | `EasyPortal365/ep365-hub` | `app: ep365-hub` |
 
 Aplikace si filtrují issues podle `app:` štítku, takže každá zobrazuje jen svou roadmapu.
 
@@ -68,18 +76,21 @@ Hlášení chyb a požadavky na nové funkce se z aplikací odesílají přes **
 | `status: in-progress` | Aktivní vývoj v aktuálním sprintu | **Now** |
 | `status: done` | Hotovo, vydané v některém release | **Co je nové** |
 
-### Milestones (release tag)
-Každá hotová položka by měla mít přiřazený milestone — tj. verzi, ve které byla vydaná (např. `v1.4.0`, `v1.3.5`). Aplikace milestone používá pro grupování v sekci „Co je nové" a v banneru aktuální verze.
+### Milestone (release tag)
+Každá hotová položka dostane **label `milestone: vX.Y.Z`** — verzi, ve které byla vydaná (např. `milestone: v1.7.3`). Aplikace podle něj hotové issue přiřadí ke správné verzi v sekci „Co je nového" (řádek „Související požadavky"). Nativní GitHub Milestones aplikace umí číst také, ale standard je label — repo-wide milestones se pro 12 appek v jednom repu nehodí.
+
+### Vztah k changelogu („Co je nového")
+Issues kryjí **požadavky a plán** — zákaznický changelog kryje **všechno vydané** (většina práce issue nemá). Changelog žije v `CHANGELOG.json` každého app repa a publikuje se na CDN (`cdn.easyportal365.cz/<app>/changelog.json`); aplikace ho zobrazují v Roadmapě pod sloupci Now/Next/Later. Postup: runbook `feedback-and-roadmap.md` v `ep365-docs`.
 
 ---
 
 ## Pro tým: ruční vytvoření issue
 
-1. **[New issue](../../issues/new)** v GitHub UI
+1. **[New issue](../../issues/new/choose)** v GitHub UI — šablony *Návrh funkce* / *Chyba* předvyplní strukturu
 2. Title bez prefixu (např. `Sledování spotřeby paliva` — bez `[ep365-fleet]`, ten odvozuje aplikace z `app:` štítku)
-3. Body = popis, který se zobrazí v aplikaci (max 1000 znaků se zobrazí, zbytek zkrácený `…`)
+3. Body: sekce **`## Souhrn`** = zákaznický popis, který se zobrazí v aplikaci (bez interních detailů!); ostatní sekce (`## Motivace`, `## Řešení`) jsou pro tým
 4. Štítky: **vždy** `app: <appname>` + jeden ze `status: ...` + volitelně `feature-request` / `bug`
-5. **Milestone**: u rozpracovaných (`in-progress`) plánovaná verze, u hotovových verze ve které vyšlo
+5. **Milestone label**: u hotových (`status: done`) verze, ve které to vyšlo (`milestone: vX.Y.Z`)
 
 ---
 
