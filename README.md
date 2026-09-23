@@ -69,18 +69,20 @@ Hlášení chyb a požadavky na nové funkce se z aplikací odesílají přes **
 | `app: ep365-documents` | EP365 Documents |
 
 ### Stav
-| Štítek | Popis | Sloupec v aplikaci |
-|---|---|---|
-| `status: under-review` | Posuzujeme · ještě nepotvrzené | **Later** |
-| `status: planned` | V plánu na nějakou další verzi | **Next** |
-| `status: in-progress` | Aktivní vývoj v aktuálním sprintu | **Now** |
-| `status: done` | Hotovo, vydané v některém release | **Co je nové** |
+| Štítek | Popis |
+|---|---|
+| `status: under-review` | Posuzujeme · ještě nepotvrzené |
+| `status: planned` | V plánu na nějakou další verzi |
+| `status: in-progress` | Aktivní vývoj |
+| `status: done` | Hotovo, vydané v některém release (v aplikaci v přehledu „Co je nového") |
+
+Aplikace neukazují otevřené požadavky jako tabuli Now / Next / Later – ta byla v září 2026 zrušena; v aplikaci je jen přehled „Co je nového".
 
 ### Milestone (release tag)
 Každá hotová položka dostane **label `milestone: vX.Y.Z`** — verzi, ve které byla vydaná (např. `milestone: v1.7.3`). Aplikace podle něj hotové issue přiřadí ke správné verzi v sekci „Co je nového" (řádek „Související požadavky"). Nativní GitHub Milestones aplikace umí číst také, ale standard je label — repo-wide milestones se pro 12 appek v jednom repu nehodí.
 
 ### Vztah k changelogu („Co je nového")
-Issues kryjí **požadavky a plán** — zákaznický changelog kryje **všechno vydané** (většina práce issue nemá). Changelog žije v `CHANGELOG.json` každého app repa a publikuje se na CDN (`cdn.easyportal365.cz/<app>/changelog.json`); aplikace ho zobrazují v Roadmapě pod sloupci Now/Next/Later. Postup: runbook `feedback-and-roadmap.md` v `ep365-docs`.
+Issues kryjí **požadavky a plán** — zákaznický changelog kryje **všechno vydané** (většina práce issue nemá). Changelog žije v `CHANGELOG.json` každého app repa a publikuje se na CDN (`cdn.easyportal365.cz/<app>/changelog.json`); aplikace ho zobrazují v přehledu „Co je nového". Postup: runbook `feedback-and-roadmap.md` v `ep365-docs`.
 
 ---
 
