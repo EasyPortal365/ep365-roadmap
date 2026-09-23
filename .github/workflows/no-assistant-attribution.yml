@@ -1,7 +1,8 @@
 # pr-description-hygiene-workflow — generated file, do not edit by hand.
 #
-# Pull request hygiene: rejects co-author trailers and generated-by footers in the PR
-# description. Local commit-msg hooks cannot reach the PR body; it is written on GitHub.
+# Pull request hygiene: rejects the generated trailers and footers matched by the patterns
+# below; HTML comments and fenced code blocks in the description are ignored. Local
+# commit-msg hooks cannot reach the PR body; it is written on GitHub.
 name: Bez atribuce asistenta
 
 on:
