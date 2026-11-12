@@ -23,7 +23,6 @@ EP365 aplikace si z něj přímo načítají vlastní pohled na roadmapu, takže
 | **EP365 Site Manager** | `EasyPortal365/ep365-site-manager` | `app: ep365-site-manager` |
 | **EP365 Worklog** | `EasyPortal365/ep365-worklog` | `app: ep365-worklog` |
 | **EP365 Marketing** | `EasyPortal365/ep365-marketing` | `app: ep365-marketing` |
-| **EP365 Hub** *(zakonzervováno)* | `EasyPortal365/ep365-hub` | `app: ep365-hub` |
 
 Aplikace si filtrují issues podle `app:` štítku, takže každá zobrazuje jen svou roadmapu.
 
@@ -65,7 +64,6 @@ Hlášení chyb a požadavky na nové funkce se z aplikací odesílají přes **
 |---|---|
 | `app: ep365-fleet` | EP365 Vozový park |
 | `app: ep365-ai-chat` | EP365 AI Asistent |
-| `app: ep365-hub` | EP365 Hub |
 | `app: ep365-documents` | EP365 Documents |
 
 ### Stav
